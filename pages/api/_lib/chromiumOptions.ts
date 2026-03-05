@@ -1,7 +1,7 @@
 import chrome, { headless } from 'chrome-aws-lambda';
 
 const chromeExecPaths = {
-  win32: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+  win32: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
   linux: '/usr/bin/google-chrome',
   darwin: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
 };
@@ -19,7 +19,7 @@ export async function getOptions(isDev: boolean): Promise<Options> {
 
   if (isDev) {
     options = {
-      args: [],
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
       executablePath: execPath,
       headless: true,
     };

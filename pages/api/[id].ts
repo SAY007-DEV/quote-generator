@@ -11,7 +11,11 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
       return res.status(400).send({ error: 'Bad Request' });
     }
 
-    const url = `https://quote-image-generator.vercel.app/html/${id}`;
+    const host = req.headers.host || 'localhost:3000';
+    const protocol = isDev ? 'http' : 'https';
+    const url = isDev
+      ? `${protocol}://${host}/html/${id}`
+      : `https://quote-image-generator.vercel.app/html/${id}`;
 
     const file = await getScreenshot(url, isDev);
 
