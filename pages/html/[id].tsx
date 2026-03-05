@@ -10,17 +10,26 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 });
 
 export const getStaticProps: GetStaticProps = async () => {
-  const res = await axios.get('http://api.quotable.io/random');
-  const { content, author } = res.data;
+  let quote = {
+    content: 'The only way to do great work is to love what you do.',
+    author: 'Steve Jobs',
+  };
+
+  try {
+    const res = await axios.get('https://api.quotable.io/random', { timeout: 5000 });
+    quote = {
+      content: res.data.content,
+      author: res.data.author,
+    };
+  } catch (error) {
+    console.error('Failed to fetch quote from api.quotable.io, using fallback.', error.message);
+  }
 
   const color = colors[Math.floor(Math.random() * colors.length)];
 
   return {
     props: {
-      quote: {
-        content,
-        author,
-      },
+      quote,
       color,
     },
     revalidate: 31536000,

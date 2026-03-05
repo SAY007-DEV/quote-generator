@@ -4,7 +4,7 @@ const nextConfig = {
     async rewrites() {
         return [
             {
-                source: '/:id',
+                source: '/:id((?!api|_next|favicon.ico).*)',
                 destination: '/api/:id',
             },
         ];
